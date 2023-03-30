@@ -4,13 +4,14 @@ import AuthPageHome from "./components/authPages/authPageHome/authPageHome";
 import {useEffect, useState} from "react";
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {
+    authCabinet,
     favoritesPage,
     foundNewPostPage,
     foundPage,
     homePage,
     lostPage,
     newLostYourBuddyPage,
-    newPostPage
+    newPostPage, personaCabPage
 } from "./utils/constants";
 import {auth} from "./firebase/firebase-config";
 import {useDispatch, useSelector} from "react-redux";
@@ -19,6 +20,8 @@ import AuthPageNewPost from "./components/authPages/authPageNewPost/authPageNewP
 import AuthPageLostAndFoundYourBuddy from "./components/authPages/authPageLostAndFoundYourBuddy/AuthPageLostAndFoundYourBuddy";
 import AuthPageLostAndFoundPages from "./components/authPages/authPageLostAndFoundPages/AuthPageLostAndFoundPages";
 import AuthPageFavorites from "./components/authPages/authPageFavorites/AuthPageFavorites";
+import AuthCabinet from "./components/authPages/authCabinet/AuthCabinet";
+import GoogleMaps from "./components/authPages/googleMaps/GoogleMaps";
 
 function App() {
     const [update, setUpdate] = useState(false);
@@ -66,6 +69,8 @@ function App() {
             {/*<Route path={`/${newLostYourBuddyPage}`} element={<AuthPageLostAndFoundYourBuddy type={'lost'}/>}/>*/}
             {/*<Route path={`/${foundNewPostPage}`} element={<AuthPageLostAndFoundYourBuddy type={'found'}/>}/>*/}
             <Route path={`/${favoritesPage}`} element={<AuthPageFavorites/>}/>
+            <Route path={`/${authCabinet}`} element={<AuthCabinet/>}/>
+            <Route path={'/map'} element={<GoogleMaps/>}/>
         </Routes>
     );
 }

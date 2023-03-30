@@ -3,12 +3,50 @@ import {getAllFoundPosts, getAllLostPosts, getAllPosts} from "../../../../fireba
 import AuthPageLostAndFoundPagesPost from "../authPageLostAndFoundPagesPost/AuthPageLostAndFoundPagesPost";
 
 const AuthPageLostAndFoundPagesMain = (props) => {
-    return (props.isLoading ? <p>loading...</p> :
+    const [isFoundLoading, setIsFoundLoading] = useState(true);
+    const [isLostLoading, setIsLostLoading] = useState(true);
+
+    const [postsLost, setPostsLost] = useState([]);
+    const [postsFound, setPostsFound] = useState([]);
+    useEffect(() => {
+        getAllLostPosts().then(response => {
+            response.forEach((doc) => {
+                setPostsLost(prevState => {
+                    prevState.unshift({
+                        postId: doc.id,
+                        postData: doc.data(),
+                    })
+                    return prevState;
+                });
+            });
+            setIsLostLoading(prevState => !prevState);
+        })
+        getAllFoundPosts().then(response => {
+            response.forEach((doc) => {
+                setPostsFound(prevState => {
+                    prevState.unshift({
+                        postId: doc.id,
+                        postData: doc.data(),
+                    })
+                    return prevState;
+                });
+            });
+            setIsFoundLoading(prevState => !prevState);
+        })
+
+    }, []);
+    return (
         <div style={{width: '50vw'}}>
             <p>{props.type === 'lost' ? 'Lost pets:' : 'Found pets:'}</p>
-            {
-                // props.isLoading ? <p>Loading</p> :
-                props.posts.map(post =><AuthPageLostAndFoundPagesPost key={post.postId} type={props.type} data={post}/>)}
+            {props.type === 'lost' ?
+                isLostLoading ? <p>Loading...</p> :
+                    postsLost.map(post => <AuthPageLostAndFoundPagesPost key={post.postId} type={props.type}
+                                                                         data={post}/>) : null}
+            {props.type === 'found' ?
+                isFoundLoading ? <p>Loading...</p> :
+                    postsFound.map(post => <AuthPageLostAndFoundPagesPost key={post.postId}
+                                                                          type={props.type}
+                                                                          data={post}/>) : null}
         </div>
     );
 };

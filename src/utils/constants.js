@@ -14,3 +14,4 @@ export const personaCabPage = 'personalCabPage';
 export const newPostPage = 'newPostPage';
 export const newLostYourBuddyPage = 'lostNewPostPage';
 export const foundNewPostPage = 'foundNewPostPage';
+export const authCabinet = 'authCabinet';

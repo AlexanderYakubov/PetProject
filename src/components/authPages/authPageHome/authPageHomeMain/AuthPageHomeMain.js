@@ -29,7 +29,6 @@ const AuthPageHomeMain = (props) => {
     return (
         <div style={{width:'50vw'}}>
             {isLoading ? <p>Loading</p> : posts.map(post=>{
-                console.log(props.ids);
                 if(props.ids)
                     return props.ids.includes(post.postId) ? <AuthPageHomePost data={post} key={post.postId}/> : null;
                 return <AuthPageHomePost data={post} key={post.postId}/>

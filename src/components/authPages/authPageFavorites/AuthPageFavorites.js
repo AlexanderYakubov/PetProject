@@ -1,28 +1,37 @@
 import React, {useEffect, useState} from 'react';
-import AuthPageFavoritesHeader from "./authPageFavoritesHeader/AuthPageFavoritesHeader";
 import AuthPageSideBarRight from "../authPageSideBarRight/AuthPageSideBarRight";
 import AuthPageHomeMain from "../authPageHome/authPageHomeMain/AuthPageHomeMain";
 import AuthPageSideBarLeft from "../authPageSideBarLeft/AuthPageSideBarLeft";
 import {getFavoriteIdPosts} from "../../../firebase/pet-services";
 import {getUid} from "../../../firebase/auth-service";
+import stl from './authPageFavorites.module.css';
+import AuthPageLostAndFoundYourBuddyHeader
+    from "../authPageLostAndFoundYourBuddy/authPageLostAndFoundYourBuddyHeader/AuthPageLostAndFoundYourBuddyHeader";
 
 const AuthPageFavorites = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [ids, setIds] = useState(null);
     const uid = getUid();
-    useEffect(()=>{
-        getFavoriteIdPosts(uid).then(res=> {
+    useEffect(() => {
+        getFavoriteIdPosts(uid).then(res => {
             console.log('favorites--------->', res.data());
             setIds(res.data());
             setIsLoading(false);
         })
-    },[]);
+    }, []);
     return (
         <div>
-            <AuthPageFavoritesHeader/>
-            <div>
+            <AuthPageLostAndFoundYourBuddyHeader/>
+            <div className={stl.containerMain}>
                 <AuthPageSideBarLeft/>
-                {isLoading? <p>Loading...</p> : <AuthPageHomeMain ids={ids.postIds}/>}
+                <div className={stl.container}>
+                    <div className={stl.header}>
+                        <p><b>Your favorites.</b>Find them here anytime.</p>
+                    </div>
+                    {isLoading ? <p>Loading...</p> : <AuthPageHomeMain
+                        ids={ids.postIds}
+                    />}
+                </div>
                 <AuthPageSideBarRight/>
             </div>
         </div>

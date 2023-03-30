@@ -80,34 +80,41 @@ export async function deletePhotoFromStorage(name) {
 }
 
 
-export async function updateProfileAddFavoriteIdPost(uid, id, oldFavorites) {
-
-    let newAr = [...oldFavorites];
-    newAr.unshift(id);
-    return await setDoc(doc(db, "favorites", `${uid}`), {
-        postIds: newAr,
-    });
+export async function isPostFavorite(uid, id) {
+    let i = null;
+    await getFavoriteIdPosts(uid).then(res => {
+        // setFavorites(res.data().postIds);
+        i = !!res.data().postIds.includes(id);
+    }).catch(e => console.log(e));
+    return i;
 }
 
-export async function updateProfileDeleteFavoriteIdPost(uid, id, oldFavorites) {
-    let newAr = [...oldFavorites];
-    return await setDoc(doc(db, "favorites", `${uid}`), {
-        postIds: newAr.filter((element) => element !== id)
+
+export async function updateProfileAddFavoriteIdPost(uid, id) {
+    await getFavoriteIdPosts(uid).then(async res => {
+        let newAr = [...res.data().postIds];
+        newAr.unshift(id);
+        await setDoc(doc(db, "favorites", `${uid}`), {
+            postIds: newAr,
+        });
     });
+    return await isPostFavorite(uid, id);
 }
 
-export async function getFavoriteIdPosts(uid){
+export async function updateProfileDeleteFavoriteIdPost(uid, id) {
+    await getFavoriteIdPosts(uid).then(async res => {
+        let newAr = [...res.data().postIds];
+        await setDoc(doc(db, "favorites", `${uid}`), {
+            postIds: newAr.filter((element) => element !== id)
+        });
+    });
+    return await isPostFavorite(uid, id);
+}
+
+export async function getFavoriteIdPosts(uid) {
     const docRef = doc(db, "favorites", `${uid}`);
     return await getDoc(docRef);
 }
-
-
-
-
-
-
-
-
 
 
 export async function uploadPictureLost(newref, file) {
@@ -134,16 +141,6 @@ export async function getAllLostPosts() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
 export async function uploadPictureFound(newref, file) {
     const storageLocal = getStorage();
     const storageRef = ref(storageLocal, `imagesFound/${newref}`);
@@ -165,4 +162,23 @@ export async function writeNewFoundPostData(uid, data) {
 export async function getAllFoundPosts() {
     const docRef = collection(db, "postsFound");
     return await getDocs(collection(db, 'postsFound'));
+}
+
+
+export async function uploadPictureCabinet(newref, file) {
+    const storageLocal = getStorage();
+    const storageRef = ref(storageLocal, `imagesIcon/${newref}`);
+    return await uploadBytes(storageRef, file);
+}
+
+export async function getRefForPhotoCabinet(name) {
+    const storageLocal = getStorage();
+    const pathReference = ref(storageLocal, `imagesIcon/${name}`);
+    return getDownloadURL(pathReference)
+}
+
+export async function deletePhotoCabinetFromStorage(name) {
+    const storageLocal = getStorage();
+    const pathReference = ref(storageLocal, `imagesIcon/${name}`);
+    return deleteObject(pathReference);
 }
