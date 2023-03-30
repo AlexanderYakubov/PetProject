@@ -3,7 +3,7 @@ import {getAllPosts} from "../../../../firebase/pet-services";
 import AuthPageNewPost from "../../authPageNewPost/authPageNewPost";
 import AuthPageHomePost from "../authPageHomePost/AuthPageHomePost";
 
-const AuthPageHomeMain = () => {
+const AuthPageHomeMain = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [posts, setPosts] = useState([]);
     useEffect(()=>{
@@ -28,7 +28,12 @@ const AuthPageHomeMain = () => {
 
     return (
         <div style={{width:'50vw'}}>
-            {isLoading ? <p>Loading</p> : posts.map(post=><AuthPageHomePost data={post} key={post.postId}/>)}
+            {isLoading ? <p>Loading</p> : posts.map(post=>{
+                console.log(props.ids);
+                if(props.ids)
+                    return props.ids.includes(post.postId) ? <AuthPageHomePost data={post} key={post.postId}/> : null;
+                return <AuthPageHomePost data={post} key={post.postId}/>
+            })}
         </div>
     );
 };

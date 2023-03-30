@@ -3,13 +3,22 @@ import WelcomePage from "./components/welcomePage/WelcomePage";
 import AuthPageHome from "./components/authPages/authPageHome/authPageHome";
 import {useEffect, useState} from "react";
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
-import {foundNewPostPage, foundPage, homePage, lostPage, newLostYourBuddyPage, newPostPage} from "./utils/constants";
+import {
+    favoritesPage,
+    foundNewPostPage,
+    foundPage,
+    homePage,
+    lostPage,
+    newLostYourBuddyPage,
+    newPostPage
+} from "./utils/constants";
 import {auth} from "./firebase/firebase-config";
 import {useDispatch, useSelector} from "react-redux";
 import {changeIsLoadingAction} from "./redux/actions/popUpActions";
 import AuthPageNewPost from "./components/authPages/authPageNewPost/authPageNewPost";
 import AuthPageLostAndFoundYourBuddy from "./components/authPages/authPageLostAndFoundYourBuddy/AuthPageLostAndFoundYourBuddy";
 import AuthPageLostAndFoundPages from "./components/authPages/authPageLostAndFoundPages/AuthPageLostAndFoundPages";
+import AuthPageFavorites from "./components/authPages/authPageFavorites/AuthPageFavorites";
 
 function App() {
     const [update, setUpdate] = useState(false);
@@ -54,8 +63,9 @@ function App() {
             <Route path={`/${foundNewPostPage}`} element={<AuthPageLostAndFoundYourBuddy type={'found'}/>}/>
             <Route path={`/${lostPage}`} element={<AuthPageLostAndFoundPages type={'lost'}/>}/>
             <Route path={`/${foundPage}`} element={<AuthPageLostAndFoundPages type={'found'}/>}/>
-            <Route path={`/${newLostYourBuddyPage}`} element={<AuthPageLostAndFoundYourBuddy type={'lost'}/>}/>
-            <Route path={`/${foundNewPostPage}`} element={<AuthPageLostAndFoundYourBuddy type={'found'}/>}/>
+            {/*<Route path={`/${newLostYourBuddyPage}`} element={<AuthPageLostAndFoundYourBuddy type={'lost'}/>}/>*/}
+            {/*<Route path={`/${foundNewPostPage}`} element={<AuthPageLostAndFoundYourBuddy type={'found'}/>}/>*/}
+            <Route path={`/${favoritesPage}`} element={<AuthPageFavorites/>}/>
         </Routes>
     );
 }
