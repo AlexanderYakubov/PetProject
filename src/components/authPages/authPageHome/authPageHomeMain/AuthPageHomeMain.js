@@ -1,9 +1,34 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {getAllPosts} from "../../../../firebase/pet-services";
+import AuthPageNewPost from "../../authPageNewPost/authPageNewPost";
+import AuthPageHomePost from "../authPageHomePost/AuthPageHomePost";
 
 const AuthPageHomeMain = () => {
-    return (
-        <div>
+    const [isLoading, setIsLoading] = useState(true);
+    const [posts, setPosts] = useState([]);
+    useEffect(()=>{
+        console.log(isLoading);
+        getAllPosts().then(response => {
+            response.forEach((doc) => {
+                    setPosts(prevState => {
+                        prevState.unshift({
+                            postId: doc.id,
+                            postData: doc.data(),
+                        })
+                        return prevState;
+                    });
+                    console.log(doc.id, " => ", doc.data());
+                });
 
+            setIsLoading(prevState => !prevState);
+            console.log(posts, isLoading);
+        })
+
+    }, []);
+
+    return (
+        <div style={{width:'50vw'}}>
+            {isLoading ? <p>Loading</p> : posts.map(post=><AuthPageHomePost data={post} key={post.postId}/>)}
         </div>
     );
 };

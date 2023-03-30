@@ -6,7 +6,6 @@
 }
 
 aside li img{
-    /*outline: 1px solid red;*/
     padding-right: 15px;
     padding-left: 153px;
     width: 16px;
@@ -14,8 +13,7 @@ aside li img{
 
 aside li{
     padding-bottom: 20px;
-
-    /*outline: 1px solid blue;*/
+    display: flex;
 }
 
 aside ul{
@@ -28,6 +26,8 @@ aside ul{
 
 .userImg{
     width: 50px;
+    height: 50px;
+    border-radius: 50%;
 }
 
 .user{
@@ -38,9 +38,10 @@ aside ul{
 }
 
 .userName{
-    padding-top: 5px;
+    padding-top: 15px;
     padding-left: 10px;
     width: 100px;
+    word-wrap: break-word;
 }
 
 .logout{
@@ -54,4 +55,3 @@ aside ul{
     height: 17px;
     padding-top: 6px;
 }
-

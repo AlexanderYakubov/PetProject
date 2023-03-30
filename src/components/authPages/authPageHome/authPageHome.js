@@ -1,25 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {getUid, logout} from "../../../firebase/auth-service";
-import { writeNewPostData} from "../../../firebase/pet-services";
+import React, {useState} from 'react';
+import {getUid} from "../../../firebase/auth-service";
 import AuthPageHeader from "./authPageHeader/AuthPageHeader";
 import AuthPageSideBarLeft from "../authPageSideBarLeft/AuthPageSideBarLeft";
+import AuthPageHomeMain from "./authPageHomeMain/AuthPageHomeMain";
+import AuthPageSideBarRight from "../authPageSideBarRight/AuthPageSideBarRight";
+import stl from './authPageHome.module.css';
 
 const AuthPageHome = () => {
-    const [message, setMessage] = useState();
-    const uid = getUid();
     return (
         <div>
             <AuthPageHeader/>
-            <AuthPageSideBarLeft/>
-
-            <button onClick={()=>logout()}>Logout</button>
-            <form>
-                <label>message</label>
-                <input type="text" id={'message'} onChange={(e)=>setMessage(e.currentTarget.value)}/>
-            </form>
-            <br/>
-            <button onClick={()=>writeNewPostData(uid, message)}>Write</button>
-
+            <div className={stl.container}>
+                <AuthPageSideBarLeft/>
+                <AuthPageHomeMain/>
+                <AuthPageSideBarRight/>
+            </div>
         </div>
     );
 };

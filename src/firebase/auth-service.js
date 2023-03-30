@@ -1,7 +1,9 @@
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "firebase/auth";
-import {auth} from "./firebase-config"
+import {auth, db} from "./firebase-config"
 import {getAuth, updateProfile} from "firebase/auth";
 import {homePage} from "../utils/constants";
+import {useDispatch} from "react-redux";
+import {doc, setDoc} from "firebase/firestore";
 
 
 export function registration(email, password, name) {
@@ -13,6 +15,9 @@ export function registration(email, password, name) {
         })
         .then(() => {
             const auth = getAuth();
+            setDoc(doc(db, "favorites", `${auth.currentUser.uid}`), {
+                postIds: ['0','1'],
+            }).catch(e=>console.log(e));
             updateProfile(auth.currentUser, {
                 displayName: name,
                 photoURL:'https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
@@ -23,14 +28,7 @@ export function registration(email, password, name) {
 }
 
 export function login(email, password) {
-    let res;
-    signInWithEmailAndPassword(auth, email, password)
-        .then(response => {
-            console.log(response)
-            res = response;
-        })
-        .catch(e => console.log(e))
-    return res;
+    return signInWithEmailAndPassword(auth, email, password)
 }
 
 export function logout() {
@@ -45,6 +43,8 @@ export function getUid() {
         return user.uid;
     }
 }
+
+
 
 
 

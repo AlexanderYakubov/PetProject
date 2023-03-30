@@ -12,3 +12,5 @@ export const vetHelpPage = 'vetHelpPage';
 export const favoritesPage = 'favoritesPage';
 export const personaCabPage = 'personalCabPage';
 export const newPostPage = 'newPostPage';
+export const newLostYourBuddyPage = 'lostNewPostPage';
+export const foundNewPostPage = 'foundNewPostPage';

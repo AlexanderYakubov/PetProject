@@ -32,11 +32,11 @@ const PopUp = (props) => {
             <div className={stl.signChoose}>
                 <div className={`${stl.signInBtn} ${!showSignIn ? stl.activeBtn : ''}`}
                      onClick={() => setSignUp()}>
-                    <span>Sign up</span>
+                    <p>Sign up</p>
                 </div>
                 <div className={`${stl.signUpBtn} ${showSignIn ? stl.activeBtn : ''}`}
                      onClick={() => setSignIn()}>
-                    <span>Sign in</span>
+                    <p>Sign in</p>
                 </div>
 
             </div>

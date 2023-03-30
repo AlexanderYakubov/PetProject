@@ -1,6 +1,8 @@
 import {db} from "./firebase-config";
-import {doc, getDoc, updateDoc, arrayUnion, setDoc} from "firebase/firestore";
-import {getDatabase, set, ref, get, child} from "firebase/database";
+import {doc, getDocs, setDoc, collection, getDoc} from "firebase/firestore";
+// import {getDatabase, set, ref, get, child} from "firebase/database";
+import {getStorage, ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
+import {getAuth, updateProfile} from "firebase/auth";
 
 
 // export async function addTodo(title, uid){
@@ -39,31 +41,128 @@ export async function writeNewPostData(uid, data) {
     });
 }
 
-
-// export async function readBdData() {
-//     const dbRef = ref(getDatabase());
-//     let userId;
-//     get(child(dbRef, `users/${userId}`)).then((snapshot) => {
-//         if (snapshot.exists()) {
-//             console.log(snapshot.val());
-//         } else {
-//             console.log("No data available");
-//         }
-//     }).catch((error) => {
-//         console.error(error);
-//     });
-// }
-
-export async function getPosts(uid){
-    const docRef = doc(db, "posts", uid);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-    }
-    return docSnap.data();
+export async function getAllPosts() {
+    const docRef = collection(db, "posts");
+    return await getDocs(collection(db, 'posts'));
 }
 
+
+// export async function getPosts(uid) {
+//     const docRef = doc(db, "posts", uid);
+//     const docSnap = await getDoc(docRef);
+//
+//     if (docSnap.exists()) {
+//         console.log("Document data:", docSnap.data());
+//     } else {
+//         // doc.data() will be undefined in this case
+//         console.log("No such document!");
+//     }
+//     return docSnap.data();
+// }
+
+
+export async function uploadPicture(newref, file) {
+    const storageLocal = getStorage();
+    const storageRef = ref(storageLocal, `images/${newref}`);
+    return await uploadBytes(storageRef, file);
+}
+
+export async function getRefForPhoto(name) {
+    const storageLocal = getStorage();
+    const pathReference = ref(storageLocal, `images/${name}`);
+    return getDownloadURL(pathReference)
+}
+
+export async function deletePhotoFromStorage(name) {
+    const storageLocal = getStorage();
+    const pathReference = ref(storageLocal, `images/${name}`);
+    return deleteObject(pathReference);
+}
+
+
+export async function updateProfileAddFavoriteIdPost(uid, id, oldFavorites) {
+
+    let newAr = [...oldFavorites];
+    newAr.unshift(id);
+    return await setDoc(doc(db, "favorites", `${uid}`), {
+        postIds: newAr,
+    });
+}
+
+export async function updateProfileDeleteFavoriteIdPost(uid, id, oldFavorites) {
+    let newAr = [...oldFavorites];
+    return await setDoc(doc(db, "favorites", `${uid}`), {
+        postIds: newAr.filter((element) => element !== id)
+    });
+}
+
+export async function getFavoriteIdPosts(uid){
+    const docRef = doc(db, "favorites", `${uid}`);
+    return await getDoc(docRef);
+}
+
+
+
+
+
+
+
+
+
+
+export async function uploadPictureLost(newref, file) {
+    const storageLocal = getStorage();
+    const storageRef = ref(storageLocal, `imagesLost/${newref}`);
+    return await uploadBytes(storageRef, file);
+}
+
+export async function getRefForPhotoLost(name) {
+    const storageLocal = getStorage();
+    const pathReference = ref(storageLocal, `imagesLost/${name}`);
+    return getDownloadURL(pathReference)
+
+}
+
+export async function writeNewLostPostData(uid, data) {
+    //const db = getDatabase();
+    await setDoc(doc(db, "postsLost", `${uid}.${data.date}`), {...data});
+}
+
+export async function getAllLostPosts() {
+    const docRef = collection(db, "postsLost");
+    return await getDocs(collection(db, 'postsLost'));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+export async function uploadPictureFound(newref, file) {
+    const storageLocal = getStorage();
+    const storageRef = ref(storageLocal, `imagesFound/${newref}`);
+    return await uploadBytes(storageRef, file);
+}
+
+export async function getRefForPhotoFound(name) {
+    const storageLocal = getStorage();
+    const pathReference = ref(storageLocal, `imagesFound/${name}`);
+    return getDownloadURL(pathReference)
+
+}
+
+export async function writeNewFoundPostData(uid, data) {
+    //const db = getDatabase();
+    await setDoc(doc(db, "postsFound", `${uid}.${data.date}`), {...data});
+}
+
+export async function getAllFoundPosts() {
+    const docRef = collection(db, "postsFound");
+    return await getDocs(collection(db, 'postsFound'));
+}

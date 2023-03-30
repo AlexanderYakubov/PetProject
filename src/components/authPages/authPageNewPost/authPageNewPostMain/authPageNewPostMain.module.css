@@ -1,0 +1,29 @@
+.photos {
+    width: 205px;
+    height: 111px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.photos img {
+    width: 53px;
+    height: 36px;
+}
+
+/*.photos > img{*/
+/*    width: 152px;*/
+/*    height: 111px;*/
+/*}*/
+
+
+.photos img:first-child {
+    width: 152px;
+    height: 111px;
+}
+
+.photoNames{
+    width: 142px;
+    height: 111px;
+    border: 1px solid #8DBFAC;
+}

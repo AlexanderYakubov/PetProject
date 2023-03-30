@@ -13,31 +13,53 @@ import {logout} from "../../../firebase/auth-service";
 
 const AuthPageSideBarLeft = () => {
     const navigate = useNavigate();
-    return(
-        <aside className={stl.aside}>
+    return (<aside className={stl.aside}>
             <ul>
-                <li onClick={e=>{navigate(`/${homePage}`)}}><img src={homeImg} alt=""/>Home</li>
-                <li onClick={e=>{navigate(`/${lostPage}`)}}><img src={lostImg} alt=""/>Lost</li>
-                <li onClick={e=>{navigate(`/${foundPage}`)}}><img src={foundImg} alt=""/>Found</li>
-                <li onClick={e=>{navigate(`/${hotelPage}`)}}><img src={servicesImg} alt=""/>Services</li>
-                <li onClick={e=>{navigate(`/${favoritesPage}`)}}><img src={favoritesImg} alt=""/>Favorites</li>
+                <li onClick={e => {
+                    navigate(`/${homePage}`)
+                }}><img src={homeImg} alt=""/>Home
+                </li>
+                <li onClick={e => {
+                    navigate(`/${lostPage}`)
+                }}><img src={lostImg} alt=""/>Lost
+                </li>
+                <li onClick={e => {
+                    navigate(`/${foundPage}`)
+                }}><img src={foundImg} alt=""/>Found
+                </li>
+                <li onClick={e => {
+                    navigate(`/${hotelPage}`)
+                }}><img src={servicesImg} alt=""/>Services
+                </li>
+                <li onClick={e => {
+                    navigate(`/${favoritesPage}`)
+                }}><img src={favoritesImg} alt=""/>Favorites
+                </li>
             </ul>
-            <p className={stl.hr}>___________________</p>
-            <div className={stl.user} onClick={e=>{navigate(`/${personaCabPage}`)}}>
+            <p className={stl.hr}>
+                <hr/>
+            </p>
+            <div className={stl.user} onClick={e => {
+                navigate(`/${personaCabPage}`)
+            }}>
                 <img className={stl.userImg} src={auth.currentUser ? auth.currentUser.photoURL : ''} alt=""/>
                 <div className={stl.userName}>
-                    {auth.currentUser ? auth.currentUser.displayName : ''}asdasd;kjaskhdkjhakjhdasf
-                    {/*выезжает текст за пределы сайдБара*/}
+                    <p>
+                        {auth.currentUser ? auth.currentUser.displayName : ''}
+                    </p>
                 </div>
             </div>
-            <div className={stl.logout} onClick={e=>{logout()}}>
+            <div className={stl.logout} onClick={e => {
+                logout()
+            }}>
                 <img className={stl.logoutImg} src={logOut} alt=""/>
                 Logout
             </div>
-            <p className={stl.hr}>___________________</p>
+            <p className={stl.hr}>
+                <hr/>
+            </p>
 
-        </aside>
-    );
+        </aside>);
 };
 
 export default AuthPageSideBarLeft;

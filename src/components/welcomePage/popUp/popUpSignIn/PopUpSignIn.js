@@ -7,7 +7,8 @@ const PopUpSignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-
+    const response = useSelector(state => state.popUp.response);
+    console.log(response)
     return (
         <div className={stl.container}>
             <form>
@@ -31,6 +32,7 @@ const PopUpSignIn = () => {
             <div className={stl.forgotPassword}>
                 <p><u>Forgot password?</u></p>
             </div>
+            {response === false ? <p>Wrong password or email. Try again</p> : null}
         </div>
     );
 };

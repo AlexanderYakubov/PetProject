@@ -10,6 +10,13 @@ export const DATA_STATE = 'DATA_STATE';
 export const REQUEST_STATUS = 'REQUEST_STATUS';
 export const CHANGE_NAME = 'CHANGE_NAME';
 export const IS_LOADING = 'IS_LOADING';
+export const SET_RESPONSE = 'SET_RESPONSE';
+
+
+export const setResponseAction = (response) => ({
+    type: SET_RESPONSE,
+    payload: response,
+});
 
 export const signInAction = (b) => ({
     type: AUTH,
@@ -20,7 +27,9 @@ export const signInAction = (b) => ({
 export const signInAsyncAction = (data) => {
     return dispatch => {
         console.log(data.email, data.password);
-        dispatch(signInAction(login(data.email, data.password)));
+        login(data.email, data.password)
+            .then(res => dispatch(signInAction(true)))
+            .catch(res => dispatch(signInAction(false)))
     }
 };
 
@@ -42,13 +51,13 @@ export const signUpAction = (b) => ({
 
 export const signUpAsyncAction = (data) => {
     return dispatch => {
-        if (data.name.length === 0 || data.email.length === 0 || data.password.length === 0){
+        if (data.name.length === 0 || data.email.length === 0 || data.password.length === 0) {
             dispatch(changeRequestStatusAction(false));
             console.log('lo kef')
-        }
-        else {
+        } else {
             dispatch(changeRequestStatusAction(true));
-            dispatch(signUpAction(registration(data.email, data.password, data.name)));}
+            dispatch(signUpAction(registration(data.email, data.password, data.name)));
+        }
     }
 };
 
@@ -62,7 +71,7 @@ export const changeDataStateAction = (dataState) => ({
     payload: dataState,
 });
 
-export const changeIsLoadingAction = (isLoading) =>({
+export const changeIsLoadingAction = (isLoading) => ({
     type: IS_LOADING,
     payload: isLoading,
 });
