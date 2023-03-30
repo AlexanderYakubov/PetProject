@@ -117,7 +117,7 @@ const AuthPageNewPostMain = () => {
                 </div>
                 <div>
                     <label htmlFor="photoInput">Photo 1:</label>
-                    <input type="file" id="photoInput" name="photo1" onChange={e => כhandleFileSelect(e)}
+                    <input type="file" id="photoInput" name="photo1" onChange={e => handleFileSelect(e)}
                            style={{display: 'none'}}/>
                     <div onClick={() => {
                         const photoInput = document.getElementById('photoInput');
